@@ -11,6 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Trade {
     private UUID id;
