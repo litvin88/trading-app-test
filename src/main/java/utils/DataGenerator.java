@@ -5,9 +5,19 @@ import pojo.Order;
 import pojo.Security;
 import pojo.User;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class DataGenerator {
+
+
+    public static Double randomDouble(){
+        return new Random().nextDouble();
+    }
+
+    public static Long randomLong(){
+        return new Random().nextLong();
+    }
 
     public static Order generateOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         return Order.builder()

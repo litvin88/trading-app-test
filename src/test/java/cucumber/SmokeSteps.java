@@ -12,13 +12,15 @@ import pojo.Order;
 import pojo.Security;
 import pojo.Trade;
 import pojo.User;
-import utils.DataGenerator;
 
 import java.util.HashSet;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static utils.DataGenerator.*;
+import static utils.Formatter.formOrderType;
+import static utils.Formatter.formatObjectToMap;
 
 public class SmokeSteps {
 
@@ -56,18 +58,36 @@ public class SmokeSteps {
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        setUpOrder(user, OrderType.valueOf(orderType.toUpperCase(Locale.ROOT)), security, price, quantity);
+        setUpOrder(user, formOrderType(orderType), security, price, quantity);
     }
 
-    @Then("user {string} puts a {string} order with a wrong param for security {string} with a price of {double} and quantity of {long}")
-    public void userPutAnOrderWithAWrongPrice(String userName, String orderType, String securityName, Double price, Long quantity) {
+    @Then("user {string} puts a {string} order for security {string} with a wrong param for a price of {double} nor a quantity of {long}")
+    public void userPutAnOrderWithAWrongParams(String userName, String orderType, String securityName, Double price, Long quantity) {
         User user = findUser(userName);
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        Order order = DataGenerator.generateOrder(user, OrderType.valueOf(orderType.toUpperCase(Locale.ROOT)), security,
+        Order order = generateOrder(user, formOrderType(orderType), security,
                 price, quantity);
         request.post(order, Endpoints.ORDERS)
+                .statusCode(400);
+    }
+
+    @Then("user {string} puts a {string} order for security {string} with wrong type for {string}")
+    public void userPutAnWrongOrder(String userName, String orderType, String securityName, String param) {
+        User user = findUser(userName);
+        Security security = findSecurity(securityName);
+        verifyUserAndSecurity(user, security);
+
+        Order order = generateOrder(user, formOrderType(orderType), security, randomDouble(), randomLong());
+
+        Map<String, Object> orderMap = formatObjectToMap(order);
+        if (param.equals("price"))
+            orderMap.put("price", true);
+        else
+            orderMap.put("quantity", true);
+
+        request.post(orderMap, Endpoints.ORDERS)
                 .statusCode(400);
     }
 
@@ -80,12 +100,12 @@ public class SmokeSteps {
     @Then("no trades occur")
     public void noTradesOccur() {
         request.get(Endpoints.TRADE_BUY_SELL, buyOrder.getId().toString(), sellOrder.getId().toString())
-                .statusCode(400);
+                .statusCode(404);
     }
 
     private void verifyTrade(Trade trade, Double price, Long quantity) {
-        assertEquals("Price not expected", trade.getPrice(), price);
-        assertEquals("Quantity not expected", trade.getQuantity(), quantity);
+        assertEquals("Price not expected", price, trade.getPrice());
+        assertEquals("Quantity not expected", quantity, trade.getQuantity());
     }
 
     private void verifyUserAndSecurity(User user, Security security) {
