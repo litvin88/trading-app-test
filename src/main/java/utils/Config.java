@@ -16,7 +16,7 @@ public class Config {
             props.load(Config.class.getClassLoader().
                     getResourceAsStream("config.properties"));
         } catch (Exception ex) {
-            logger.info("Config file read failed: {}", ex.fillInStackTrace().toString());
+            logger.error("Config file read failed: {}", ex.fillInStackTrace().toString());
         }
     }
 

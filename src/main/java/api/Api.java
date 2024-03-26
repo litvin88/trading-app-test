@@ -1,5 +1,6 @@
 package api;
 
+import enums.Index;
 import enums.OrderType;
 import org.apache.commons.lang3.RandomStringUtils;
 import pojo.Order;
@@ -19,7 +20,7 @@ public class Api {
     }
 
     public User createUser(String name) {
-        User user = User.builder()
+        User user = User.Builder.newInstance()
                 .id(UUID.randomUUID())
                 .username(name)
                 .password(RandomStringUtils.randomAlphanumeric(64))
@@ -30,11 +31,8 @@ public class Api {
                 .extract().as(User.class);
     }
 
-    public Security createSecurity(String name) {
-        Security security = Security.builder()
-                .id(UUID.randomUUID())
-                .name(name)
-                .build();
+    public Security createSecurity(Index index) {
+        Security security = new Security(UUID.randomUUID(), index.name());
 
         return request.post(security, Endpoints.SECURITIES)
                 .statusCode(201)

@@ -7,16 +7,16 @@ import enums.OrderType;
 import java.util.Locale;
 import java.util.Map;
 
-public class Formatter {
-    public static String formUrl(String endpoint, String... params){
+public class Format {
+    public static String url(String endpoint, String... params){
         return endpoint.formatted((Object[]) params);
     }
 
-    public static Map<String, Object> formatObjectToMap(Object object) {
+    public static Map<String, Object> objectToMap(Object object) {
         return new ObjectMapper().convertValue(object, new TypeReference<>() {});
     }
 
-    public static OrderType formOrderType(String orderType){
+    public static OrderType orderType(String orderType){
         return OrderType.valueOf(orderType.toUpperCase(Locale.ROOT));
     }
 }

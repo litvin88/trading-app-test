@@ -11,19 +11,19 @@ import java.util.UUID;
 public class DataGenerator {
 
 
-    public static Double randomDouble(){
+    public static Double randomDouble() {
         return new Random().nextDouble();
     }
 
-    public static Long randomLong(){
+    public static Long randomLong() {
         return new Random().nextLong();
     }
 
     public static Order generateOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
-        return Order.builder()
+        return Order.Builder.newInstance()
                 .id(UUID.randomUUID())
                 .userId(user.getId())
-                .securityId(security.getId())
+                .securityId(security.id())
                 .price(price)
                 .quantity(quantity)
                 .type(orderType)
