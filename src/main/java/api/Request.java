@@ -8,18 +8,16 @@ import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import lombok.extern.slf4j.Slf4j;
-import utils.Formatter;
+import utils.Format;
 import utils.TestLogFilter;
 
-@Slf4j
 public class Request {
 
     public ValidatableResponse get(String endPoint, String... endPointParams) {
         return RestAssured.given()
                 .spec(requestSpecification())
                 .when()
-                .get(Formatter.formUrl(endPoint, endPointParams))
+                .get(Format.url(endPoint, endPointParams))
                 .then();
     }
 
@@ -28,7 +26,7 @@ public class Request {
                 .spec(requestSpecification())
                 .when();
         specification.body(body);
-        return specification.post(Formatter.formUrl(endPoint, endPointParams)).then();
+        return specification.post(Format.url(endPoint, endPointParams)).then();
     }
 
     private RequestSpecification requestSpecification() {
