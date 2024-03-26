@@ -1,9 +1,7 @@
 package cucumber;
 
-import api.Api;
 import api.Endpoints;
-import api.Request;
-import enums.OrderType;
+import helpers.SmokeHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,30 +11,13 @@ import pojo.Security;
 import pojo.Trade;
 import pojo.User;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import static org.junit.Assert.*;
 import static utils.DataGenerator.*;
-import static utils.Formatter.formOrderType;
-import static utils.Formatter.formatObjectToMap;
+import static utils.Format.objectToMap;
+import static utils.Format.orderType;
 
-public class SmokeSteps {
-
-    private final Request request;
-    private final Api api;
-    private final Set<Security> securities;
-    private final Set<User> users;
-    private Order buyOrder;
-    private Order sellOrder;
-
-    public SmokeSteps() {
-        request = new Request();
-        api = new Api(request);
-        securities = new HashSet<>();
-        users = new HashSet<>();
-    }
+public class SmokeSteps extends SmokeHelper {
 
     @Given("one security {string} and one users {string} exist")
     public void oneSecurityAndOneUser(String securityName, String userName) {
@@ -58,7 +39,7 @@ public class SmokeSteps {
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        setUpOrder(user, formOrderType(orderType), security, price, quantity);
+        setUpOrder(user, orderType(orderType), security, price, quantity);
     }
 
     @Then("user {string} puts a {string} order for security {string} with a wrong param for a price of {double} nor a quantity of {long}")
@@ -67,7 +48,7 @@ public class SmokeSteps {
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        Order order = generateOrder(user, formOrderType(orderType), security,
+        Order order = generateOrder(user, orderType(orderType), security,
                 price, quantity);
         request.post(order, Endpoints.ORDERS)
                 .statusCode(400);
@@ -79,9 +60,9 @@ public class SmokeSteps {
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        Order order = generateOrder(user, formOrderType(orderType), security, randomDouble(), randomLong());
+        Order order = generateOrder(user, orderType(orderType), security, randomDouble(), randomLong());
 
-        Map<String, Object> orderMap = formatObjectToMap(order);
+        Map<String, Object> orderMap = objectToMap(order);
         if (param.equals("price"))
             orderMap.put("price", true);
         else
@@ -101,53 +82,5 @@ public class SmokeSteps {
     public void noTradesOccur() {
         request.get(Endpoints.TRADE_BUY_SELL, buyOrder.getId().toString(), sellOrder.getId().toString())
                 .statusCode(404);
-    }
-
-    private void verifyTrade(Trade trade, Double price, Long quantity) {
-        assertEquals("Price not expected", price, trade.getPrice());
-        assertEquals("Quantity not expected", quantity, trade.getQuantity());
-    }
-
-    private void verifyUserAndSecurity(User user, Security security) {
-        assertTrue(String.format("Unknown user \"%s\"", user.getUsername()), users.contains(user));
-        assertTrue(String.format("Unknown security \"%s\"", security.getName()), securities.contains(security));
-    }
-
-    private void setUpSecurity(String securityName) {
-        Security security = api.createSecurity(securityName);
-        securities.add(security);
-    }
-
-    private void setUpUser(String userName) {
-        User userOne = api.createUser(userName);
-        users.add(userOne);
-    }
-
-    private void setUpOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
-        Order orderCreated = api.createOrder(user, orderType, security, price, quantity);
-        if (OrderType.SELL == orderCreated.getType())
-            sellOrder = orderCreated;
-        else
-            buyOrder = orderCreated;
-    }
-
-    private User findUser(String name) {
-        User foundUser = null;
-        for (User user : users) {
-            if (user.getUsername().equals(name))
-                foundUser = user;
-        }
-        assertNotNull("User with a name: %s was not found".formatted(name), foundUser);
-        return foundUser;
-    }
-
-    private Security findSecurity(String name) {
-        Security securityToFind = null;
-        for (Security security : securities) {
-            if (security.getName().equals(name))
-                securityToFind = security;
-        }
-        assertNotNull("Security with a name: %s, was not found".formatted(name), securityToFind);
-        return securityToFind;
     }
 }
