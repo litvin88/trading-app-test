@@ -9,5 +9,5 @@ import org.junit.runner.RunWith;
         plugin = {"pretty", "html:target/reports/cucumber-report.html", "json:target/reports/cucumber-report.json"},
         features = "src/test/resources",
         monochrome = true )
-public class SmokeTest {
+public class TestRunner {
 }

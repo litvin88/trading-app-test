@@ -1,14 +1,14 @@
 package cucumber;
 
 import api.Endpoints;
-import helpers.SmokeHelper;
+import context.TestContext;
+import helpers.BaseHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pojo.Order;
 import pojo.Security;
-import pojo.Trade;
 import pojo.User;
 
 import java.util.Map;
@@ -17,12 +17,10 @@ import static utils.DataGenerator.*;
 import static utils.Format.objectToMap;
 import static utils.Format.orderType;
 
-public class SmokeSteps extends SmokeHelper {
+public class SmokeSteps extends BaseHelper {
 
-    @Given("one security {string} and one users {string} exist")
-    public void oneSecurityAndOneUser(String securityName, String userName) {
-        setUpSecurity(securityName);
-        setUpUser(userName);
+    public SmokeSteps(TestContext testContext) {
+        super(testContext);
     }
 
     @Given("one security {string} and two users {string} and {string} exist")
@@ -70,17 +68,5 @@ public class SmokeSteps extends SmokeHelper {
 
         request.post(orderMap, Endpoints.ORDERS)
                 .statusCode(400);
-    }
-
-    @Then("a trade occurs with the price of {double} and quantity of {long}")
-    public void aTradeOccursWithThePriceOfAndQuantityOf(Double price, Long quantity) {
-        Trade trade = api.getBuySellTrade(buyOrder, sellOrder);
-        verifyTrade(trade, price, quantity);
-    }
-
-    @Then("no trades occur")
-    public void noTradesOccur() {
-        request.get(Endpoints.TRADE_BUY_SELL, buyOrder.getId().toString(), sellOrder.getId().toString())
-                .statusCode(404);
     }
 }

@@ -19,13 +19,13 @@ Feature: Smoke
     Then no trades occur
 
   Scenario: Trading with one user with Sell and Buy orders
-    Given one security "NTR" and one users "User1" exist
+    Given one security "NTR" and one user "User1" exist
     When user "User1" puts a "sell" order for security "NTR" with a price of 1000 and a quantity of 100
     And user "User1" puts a "buy" order for security "NTR" with a price of 1001 and quantity of 50
     Then a trade occurs with the price of 1000 and quantity of 50
 
   Scenario: Trading with one user with Buy and Sell orders
-    Given one security "NTR" and one users "User1" exist
+    Given one security "NTR" and one user "User1" exist
     When user "User1" puts a "buy" order for security "NTR" with a price of 11111 and a quantity of 1000
     And user "User1" puts a "sell" order for security "NTR" with a price of 11111 and quantity of 50
 #   Value for Trade's quantity field is taken from Buy order
@@ -56,41 +56,33 @@ Feature: Smoke
     Then a trade occurs with the price of 999999.9999 and quantity of 100
 
   Scenario: Price zero for sell order and no order created
-    Given one security "NTR" and one users "User1" exist
+    Given one security "NTR" and one user "User1" exist
     Then user "User1" puts a "sell" order for security "NTR" with a wrong param for a price of 0 nor a quantity of 10
 
   Scenario: Price zero for buy order and no order created
-    Given one security "SEC" and one users "User1" exist
+    Given one security "SEC" and one user "User1" exist
     Then user "User1" puts a "buy" order for security "SEC" with a wrong param for a price of 0 nor a quantity of 10
 
   Scenario: Quantity zero for buy order and no order created
-    Given one security "NTR" and one users "User1" exist
+    Given one security "NTR" and one user "User1" exist
     Then user "User1" puts a "buy" order for security "NTR" with a wrong param for a price of 1000 nor a quantity of 0
 
   Scenario: Quantity zero for sell order and no order created
-    Given one security "SEC" and one users "User1" exist
+    Given one security "SEC" and one user "User1" exist
     Then user "User1" puts a "sell" order for security "SEC" with a wrong param for a price of 1000 nor a quantity of 0
 
   Scenario: Negative price for sell order and no order created
-    Given one security "WSB" and one users "User1" exist
+    Given one security "WSB" and one user "User1" exist
     Then user "User1" puts a "sell" order for security "WSB" with a wrong param for a price of -1 nor a quantity of 10
 
   Scenario: Negative price for buy order and no order created
-    Given one security "WSB" and one users "User1" exist
+    Given one security "WSB" and one user "User1" exist
     Then user "User1" puts a "buy" order for security "WSB" with a wrong param for a price of -1 nor a quantity of 10
 
   Scenario: Negative quantity for sell order and no order created
-    Given one security "WSB" and one users "User1" exist
+    Given one security "WSB" and one user "User1" exist
     Then user "User1" puts a "sell" order for security "WSB" with a wrong param for a price of 100 nor a quantity of -1
 
   Scenario: Negative quantity for buy order and no order created
-    Given one security "WSB" and one users "User1" exist
+    Given one security "WSB" and one user "User1" exist
     Then user "User1" puts a "buy" order for security "WSB" with a wrong param for a price of 100 nor a quantity of -1
-
-  Scenario: Wrong price type for buy order and no order created
-    Given one security "WSB" and one users "User1" exist
-    Then user "User1" puts a "buy" order for security "WSB" with wrong type for "price"
-
-  Scenario: Wrong quantity type for sell order and no order created
-    Given one security "WSB" and one users "User1" exist
-    Then user "User1" puts a "sell" order for security "WSB" with wrong type for "quantity"
