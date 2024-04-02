@@ -10,6 +10,8 @@ import pojo.Security;
 import pojo.Trade;
 import pojo.User;
 
+import java.math.BigDecimal;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaseHelper {
@@ -32,11 +34,19 @@ public class BaseHelper {
     }
 
     public void setUpUser(String userName) {
-        User userOne = api.createUser(userName);
+        User userOne = checkUsers(userName);
         testContext.users.add(userOne);
     }
 
-    public void setUpOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
+    private User checkUsers(String userName) {
+        User security = testContext.users.stream().filter(u -> u.getUsername().equals(userName))
+                .findFirst().orElse(null);
+        if (security == null)
+            return api.createUser(userName);
+        return security;
+    }
+
+    public void setUpOrder(User user, OrderType orderType, Security security, BigDecimal price, Long quantity) {
         Order orderCreated = api.createOrder(user, orderType, security, price, quantity);
         if (OrderType.SELL == orderCreated.getType())
             testContext.sellOrder = orderCreated;
@@ -44,7 +54,7 @@ public class BaseHelper {
             testContext.buyOrder = orderCreated;
     }
 
-    public void verifyTrade(Trade trade, Double price, Long quantity) {
+    public void verifyTrade(Trade trade, BigDecimal price, Long quantity) {
         assertThat(price).withFailMessage("Price not expected")
                 .isEqualTo(trade.price());
         assertThat(quantity).withFailMessage("Quantity not expected")

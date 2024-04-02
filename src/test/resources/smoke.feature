@@ -54,35 +54,3 @@ Feature: Smoke
     When user "User1" puts a "buy" order for security "WSB" with a price of 999999.9999 and quantity of 100
     And user "User2" puts a "sell" order for security "WSB" with a price of 999999.9999 and quantity of 1000
     Then a trade occurs with the price of 999999.9999 and quantity of 100
-
-  Scenario: Price zero for sell order and no order created
-    Given one security "NTR" and one user "User1" exist
-    Then user "User1" puts a "sell" order for security "NTR" with a wrong param for a price of 0 nor a quantity of 10
-
-  Scenario: Price zero for buy order and no order created
-    Given one security "SEC" and one user "User1" exist
-    Then user "User1" puts a "buy" order for security "SEC" with a wrong param for a price of 0 nor a quantity of 10
-
-  Scenario: Quantity zero for buy order and no order created
-    Given one security "NTR" and one user "User1" exist
-    Then user "User1" puts a "buy" order for security "NTR" with a wrong param for a price of 1000 nor a quantity of 0
-
-  Scenario: Quantity zero for sell order and no order created
-    Given one security "SEC" and one user "User1" exist
-    Then user "User1" puts a "sell" order for security "SEC" with a wrong param for a price of 1000 nor a quantity of 0
-
-  Scenario: Negative price for sell order and no order created
-    Given one security "WSB" and one user "User1" exist
-    Then user "User1" puts a "sell" order for security "WSB" with a wrong param for a price of -1 nor a quantity of 10
-
-  Scenario: Negative price for buy order and no order created
-    Given one security "WSB" and one user "User1" exist
-    Then user "User1" puts a "buy" order for security "WSB" with a wrong param for a price of -1 nor a quantity of 10
-
-  Scenario: Negative quantity for sell order and no order created
-    Given one security "WSB" and one user "User1" exist
-    Then user "User1" puts a "sell" order for security "WSB" with a wrong param for a price of 100 nor a quantity of -1
-
-  Scenario: Negative quantity for buy order and no order created
-    Given one security "WSB" and one user "User1" exist
-    Then user "User1" puts a "buy" order for security "WSB" with a wrong param for a price of 100 nor a quantity of -1

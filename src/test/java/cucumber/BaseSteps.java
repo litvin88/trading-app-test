@@ -7,6 +7,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import pojo.Trade;
 
+import java.math.BigDecimal;
+
 public class BaseSteps extends BaseHelper {
 
     public BaseSteps(TestContext testContext) {
@@ -22,7 +24,7 @@ public class BaseSteps extends BaseHelper {
     @Then("a trade occurs with the price of {double} and quantity of {long}")
     public void aTradeOccursWithThePriceOfAndQuantityOf(Double price, Long quantity) {
         Trade trade = api.getBuySellTrade(testContext.buyOrder, testContext.sellOrder);
-        verifyTrade(trade, price, quantity);
+        verifyTrade(trade, BigDecimal.valueOf(price), quantity);
     }
 
     @Then("no trades occur")
