@@ -5,7 +5,6 @@ import pojo.Order;
 import pojo.Security;
 import pojo.User;
 
-import java.math.BigDecimal;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,8 +12,8 @@ public class DataGenerator {
 
     private static final Random random = new Random();
 
-    public static BigDecimal randomBigDecimal() {
-        return BigDecimal.valueOf(new Random().nextDouble(0, 1000000000));
+    public static Double randomDouble() {
+        return new Random().nextDouble(0, Double.MAX_VALUE);
     }
 
     public static OrderType randomOrderType() {
@@ -26,7 +25,7 @@ public class DataGenerator {
         return random.nextLong();
     }
 
-    public static Order generateOrder(User user, OrderType orderType, Security security, BigDecimal price, Long quantity) {
+    public static Order generateOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         return Order.Builder.newInstance()
                 .id(UUID.randomUUID())
                 .userId(user.getId())

@@ -46,7 +46,7 @@ public class BaseHelper {
         return security;
     }
 
-    public void setUpOrder(User user, OrderType orderType, Security security, BigDecimal price, Long quantity) {
+    public void setUpOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         Order orderCreated = api.createOrder(user, orderType, security, price, quantity);
         if (OrderType.SELL == orderCreated.getType())
             testContext.sellOrder = orderCreated;

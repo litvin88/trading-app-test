@@ -112,7 +112,7 @@ Feature: Negative Checks
       | "quantity" | "1000000000"      |
 
   Scenario Outline: Wrong price type for buy order and no order created
-    Then user "WhiteListed" puts a "buy" order for security "DAX" for a <field> with a wrong type <value>
+    Then user "WhiteListed" puts a "buy" order for security "DAX" for a <field> with boolean <value>
     Examples:
       | field      | value   |
       | "price"    | "true"  |
@@ -121,7 +121,7 @@ Feature: Negative Checks
       | "quantity" | "false" |
 
   Scenario Outline: Wrong quantity type for sell order and no order created
-    Then user "WhiteListed" puts a "buy" order for security "DAX" for a <field> with a wrong type <value>
+    Then user "WhiteListed" puts a "sell" order for security "DAX" for a <field> with boolean <value>
     Examples:
       | field      | value   |
       | "price"    | "true"  |

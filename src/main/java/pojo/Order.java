@@ -3,7 +3,6 @@ package pojo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import enums.OrderType;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,13 +12,13 @@ public class Order {
     private UUID userId;
     private UUID securityId;
     private OrderType type;
-    private BigDecimal price;
+    private Double price;
     private Long quantity;
     private Boolean fulfilled = Boolean.FALSE;
 
     public Order(){}
 
-    private Order(UUID id, UUID userId, UUID securityId, OrderType type, BigDecimal price, Long quantity, Boolean fulfilled) {
+    private Order(UUID id, UUID userId, UUID securityId, OrderType type, Double price, Long quantity, Boolean fulfilled) {
         this.id = id;
         this.userId = userId;
         this.securityId = securityId;
@@ -45,7 +44,7 @@ public class Order {
         return type;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -62,7 +61,7 @@ public class Order {
         private UUID userId;
         private UUID securityId;
         private OrderType type;
-        private BigDecimal price;
+        private Double price;
         private Long quantity;
         private final Boolean fulfilled = Boolean.FALSE;
 
@@ -93,7 +92,7 @@ public class Order {
             return this;
         }
 
-        public Builder price(BigDecimal price) {
+        public Builder price(Double price) {
             this.price = price;
             return this;
         }

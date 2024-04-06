@@ -9,7 +9,6 @@ import pojo.Trade;
 import pojo.User;
 import utils.DataGenerator;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Api {
@@ -40,7 +39,7 @@ public class Api {
                 .extract().as(Security.class);
     }
 
-    public Order createOrder(User user, OrderType orderType, Security security, BigDecimal price, Long quantity) {
+    public Order createOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         Order order = DataGenerator.generateOrder(user, orderType, security, price, quantity);
         return request.post(order, Endpoints.ORDERS)
                 .statusCode(201)

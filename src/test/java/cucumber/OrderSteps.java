@@ -4,12 +4,13 @@ import api.Endpoints;
 import context.TestContext;
 import helpers.BaseHelper;
 import io.cucumber.java.en.Then;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pojo.Order;
 import pojo.Security;
 import pojo.User;
 import utils.Format;
 
-import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -18,6 +19,8 @@ import static utils.DataGenerator.*;
 import static utils.Format.orderType;
 
 public class OrderSteps extends BaseHelper {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderSteps.class);
 
     public OrderSteps(TestContext testContext) {
         super(testContext);
@@ -32,7 +35,7 @@ public class OrderSteps extends BaseHelper {
                 .id(UUID.randomUUID())
                 .userId(user.getId())
                 .securityId(security.id())
-                .price(randomBigDecimal())
+                .price(randomDouble())
                 .quantity(new Random().nextLong(100))
                 .type(orderType(type))
                 .build();
@@ -81,8 +84,9 @@ public class OrderSteps extends BaseHelper {
 
         Map<String, Object> orderMap = Format.objectToMap(order);
         switch (priceOrQuantity) {
-            case "price" -> orderMap.put(priceOrQuantity, new BigDecimal(value));
+            case "price" -> orderMap.put(priceOrQuantity, Double.parseDouble(value));
             case "quantity" -> orderMap.put(priceOrQuantity, Integer.parseInt(value));
+            default -> logger.warn("Wrong Order field passed");
         }
 
         //TODO should be 400 response
@@ -90,13 +94,13 @@ public class OrderSteps extends BaseHelper {
                 .statusCode(201);
     }
 
-    @Then("user {string} puts a {string} order for security {string} for a {string} with a wrong type {string}")
+    @Then("user {string} puts a {string} order for security {string} for a {string} with boolean {string}")
     public void userPutAnWrongOrder(String userName, String orderType, String securityName, String field, String value) {
         User user = findUser(userName);
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        Order order = generateOrder(user, orderType(orderType), security, randomBigDecimal(), randomLong());
+        Order order = generateOrder(user, orderType(orderType), security, randomDouble(), randomLong());
 
         Map<String, Object> orderMap = Format.objectToMap(order);
         orderMap.put(field, Boolean.valueOf(value));
@@ -110,7 +114,7 @@ public class OrderSteps extends BaseHelper {
                 .id(UUID.randomUUID())
                 .userId(user.getId())
                 .securityId(security.id())
-                .price(randomBigDecimal())
+                .price(randomDouble())
                 .quantity(new Random().nextLong(100))
                 .type(randomOrderType())
                 .build();

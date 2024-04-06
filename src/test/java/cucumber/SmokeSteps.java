@@ -8,8 +8,6 @@ import io.cucumber.java.en.When;
 import pojo.Security;
 import pojo.User;
 
-import java.math.BigDecimal;
-
 import static utils.Format.orderType;
 
 public class SmokeSteps extends BaseHelper {
@@ -32,6 +30,6 @@ public class SmokeSteps extends BaseHelper {
         Security security = findSecurity(securityName);
         verifyUserAndSecurity(user, security);
 
-        setUpOrder(user, orderType(orderType), security, BigDecimal.valueOf(price), quantity);
+        setUpOrder(user, orderType(orderType), security, price, quantity);
     }
 }
