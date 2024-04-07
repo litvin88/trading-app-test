@@ -3,8 +3,6 @@ package api;
 import utils.Config;
 
 public class Endpoints {
-
-
     public static final String BASE_URL = Config.getBaseUrl();
     public static final String API = BASE_URL + "/api";
     public static final String USERS = API + "/users";
@@ -15,5 +13,4 @@ public class Endpoints {
     public static final String SECURITY = SECURITIES + "%s";
     public static final String TRADES = API + "/trades";
     public static final String TRADE_BUY_SELL = TRADES + "/orderBuyId/%s/orderSellId/%s";
-
 }

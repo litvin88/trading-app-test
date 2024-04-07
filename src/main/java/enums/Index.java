@@ -8,5 +8,4 @@ public enum Index {
     SENSEX,
     DJI,
     COMP
-
 }

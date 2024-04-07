@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 public class TestLogFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(TestLogFilter.class);
-
     private final Prettifier prettifier;
 
     public TestLogFilter() {

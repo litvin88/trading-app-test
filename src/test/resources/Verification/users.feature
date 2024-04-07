@@ -6,7 +6,7 @@ Feature: User verification
     And save user from response
     Then user data and user from DB should be equals
 
-    #Server ignores ID from client and creates auto generated
+    #Server ignores ID from client and generates random id
   Scenario: Create User with all fields
     Given create user with all fields and save response
     And response status code is 201

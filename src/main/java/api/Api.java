@@ -30,7 +30,7 @@ public class Api {
                 .extract().as(User.class);
     }
 
-    public ValidatableResponse requestSecurity(Security security) {
+    public ValidatableResponse requestSecurity(Object security) {
         return request.post(security, Endpoints.SECURITIES);
     }
 

@@ -8,7 +8,7 @@ import pojo.User;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestContext {
+public class ScenarioContext {
 
     public Set<Security> securities;
     public Set<User> users;
@@ -16,7 +16,7 @@ public class TestContext {
     public Order sellOrder;
     public ValidatableResponse response;
 
-    public TestContext(){
+    public ScenarioContext(){
         securities = new HashSet<>();
         users = new HashSet<>();
     }

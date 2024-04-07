@@ -1,6 +1,6 @@
 package cucumber;
 
-import context.TestContext;
+import context.ScenarioContext;
 import helpers.BaseHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -17,8 +17,8 @@ public class UserSteps extends BaseHelper {
     private User userFromResponse;
     private User userData;
 
-    public UserSteps(TestContext testContext) {
-        super(testContext);
+    public UserSteps(ScenarioContext scenarioContext) {
+        super(scenarioContext);
     }
 
     @Given("create user with name {string}, password {string} and save response")
@@ -28,19 +28,19 @@ public class UserSteps extends BaseHelper {
                 .password(password)
                 .build();
 
-        testContext.response = api.requestUser(userData);
+        scenarioContext.response = api.requestUser(userData);
     }
 
     @And("save user from response")
     public void saveUserFromResp() {
-        userFromResponse = testContext.response
+        userFromResponse = scenarioContext.response
                 .extract().as(User.class);
     }
 
     @Given("create user with all fields and save response")
     public void createUserWithAllFields() {
         userData = randomUser("random");
-        testContext.response = api.requestUser(userData);
+        scenarioContext.response = api.requestUser(userData);
     }
 
     @And("user data and user from DB should be equals")
@@ -62,7 +62,7 @@ public class UserSteps extends BaseHelper {
 
     @And("make request for duplicate user and save response")
     public void sendUserRequest() {
-        testContext.response = api.requestUser(userFromResponse);
+        scenarioContext.response = api.requestUser(userFromResponse);
     }
 
 
@@ -79,7 +79,7 @@ public class UserSteps extends BaseHelper {
     @And("create user with a wrong name {string}")
     public void createUserWithWrongName(String param) {
         User user = randomUser(param);
-        testContext.response = api.requestUser(user);
+        scenarioContext.response = api.requestUser(user);
     }
 
     @And("create user with a wrong password {string}")
@@ -87,6 +87,6 @@ public class UserSteps extends BaseHelper {
         User user = randomUser("random");
         user.setPassword(param);
 
-        testContext.response = api.requestUser(user);
+        scenarioContext.response = api.requestUser(user);
     }
 }

@@ -2,7 +2,7 @@ package helpers;
 
 import api.Api;
 import api.Request;
-import context.TestContext;
+import context.ScenarioContext;
 import enums.Index;
 import enums.OrderType;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -19,18 +19,17 @@ import static utils.DataGenerator.initUserName;
 public class BaseHelper {
     protected final Request request;
     protected final Api api;
-    protected TestContext testContext;
+    protected ScenarioContext scenarioContext;
 
-    public BaseHelper(TestContext testContext) {
+    public BaseHelper(ScenarioContext scenarioContext) {
         this.request = new Request();
         this.api = new Api(request);
-        this.testContext = testContext;
+        this.scenarioContext = scenarioContext;
     }
 
     public User setUpUser(String userName) {
-
         User userOne = checkAndCreateUsers(userName);
-        testContext.users.add(userOne);
+        scenarioContext.users.add(userOne);
         return userOne;
     }
 
@@ -47,7 +46,7 @@ public class BaseHelper {
     }
 
     public User filterUsers(String userName) {
-        return testContext.users.stream().filter(u -> u.getUsername().equals(userName))
+        return scenarioContext.users.stream().filter(u -> u.getUsername().equals(userName))
                 .findFirst().orElse(null);
     }
 
@@ -62,9 +61,9 @@ public class BaseHelper {
     public void setUpOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         Order orderCreated = api.createOrder(user, orderType, security, price, quantity);
         if (OrderType.SELL == orderCreated.getType())
-            testContext.sellOrder = orderCreated;
+            scenarioContext.sellOrder = orderCreated;
         else
-            testContext.buyOrder = orderCreated;
+            scenarioContext.buyOrder = orderCreated;
     }
 
     public void verifyTrade(Trade trade, BigDecimal price, Long quantity) {
@@ -79,12 +78,12 @@ public class BaseHelper {
                 .extracting(Index::name)
                 .contains(indexName);
         Security security = api.createSecurity(Index.valueOf(indexName));
-        testContext.securities.add(security);
+        scenarioContext.securities.add(security);
     }
 
     public Security findSecurity(String name) {
         Security securityToFind = null;
-        for (Security security : testContext.securities) {
+        for (Security security : scenarioContext.securities) {
             if (security.name().equals(name))
                 securityToFind = security;
         }
@@ -95,9 +94,9 @@ public class BaseHelper {
     }
 
     public void verifyUserAndSecurity(User user, Security security) {
-        assertThat(testContext.users.contains(user)).withFailMessage("Unknown user: %s", user.getUsername())
+        assertThat(scenarioContext.users.contains(user)).withFailMessage("Unknown user: %s", user.getUsername())
                 .isTrue();
-        assertThat(testContext.securities.contains(security)).withFailMessage("Unknown security: %s", security.name())
+        assertThat(scenarioContext.securities.contains(security)).withFailMessage("Unknown security: %s", security.name())
                 .isTrue();
     }
 

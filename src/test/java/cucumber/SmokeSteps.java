@@ -1,6 +1,6 @@
 package cucumber;
 
-import context.TestContext;
+import context.ScenarioContext;
 import helpers.BaseHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -12,8 +12,8 @@ import static utils.Format.orderType;
 
 public class SmokeSteps extends BaseHelper {
 
-    public SmokeSteps(TestContext testContext) {
-        super(testContext);
+    public SmokeSteps(ScenarioContext scenarioContext) {
+        super(scenarioContext);
     }
 
     @Given("one security {string} and two users {string} and {string} exist")

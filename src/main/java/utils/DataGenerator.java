@@ -1,5 +1,6 @@
 package utils;
 
+import enums.Index;
 import enums.OrderType;
 import org.apache.commons.lang3.RandomStringUtils;
 import pojo.Order;
@@ -53,5 +54,14 @@ public class DataGenerator {
         if (userName.equals("random"))
             userName = "Test_" + randomSting(10);
         return userName;
+    }
+
+    public static Security randomSecurity(){
+        return new Security(UUID.randomUUID(), randomIndex());
+    }
+
+    public static String randomIndex(){
+        Index[] indexes = Index.values();
+        return indexes[new Random().nextInt(indexes.length)].toString();
     }
 }

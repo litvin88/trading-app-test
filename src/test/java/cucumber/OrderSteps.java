@@ -1,7 +1,7 @@
 package cucumber;
 
 import api.Endpoints;
-import context.TestContext;
+import context.ScenarioContext;
 import helpers.BaseHelper;
 import io.cucumber.java.en.Then;
 import org.slf4j.Logger;
@@ -22,8 +22,8 @@ public class OrderSteps extends BaseHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderSteps.class);
 
-    public OrderSteps(TestContext testContext) {
-        super(testContext);
+    public OrderSteps(ScenarioContext scenarioContext) {
+        super(scenarioContext);
     }
 
     @Then("user {string} puts a {string} order for security {string} with mandatory fields only")
@@ -63,8 +63,8 @@ public class OrderSteps extends BaseHelper {
     @Then("user puts an order for security with a wrong {string} and {string} for it")
     public void userPutsAnOrderForSecurityWithWrongPriceOrQuantity(String field, String value) {
         Order order = randomValidOrder(
-                (User) testContext.users.toArray()[0],
-                (Security) testContext.securities.toArray()[0]
+                (User) scenarioContext.users.toArray()[0],
+                (Security) scenarioContext.securities.toArray()[0]
         );
 
         Map<String, Object> orderMap = Format.objectToMap(order);
@@ -78,8 +78,8 @@ public class OrderSteps extends BaseHelper {
     @Then("user puts an order for security with a {string} and value {string}, more or less then allowed range")
     public void userPutsAnOrderForSecurityWithWrong(String priceOrQuantity, String value) {
         Order order = randomValidOrder(
-                (User) testContext.users.toArray()[0],
-                (Security) testContext.securities.toArray()[0]
+                (User) scenarioContext.users.toArray()[0],
+                (Security) scenarioContext.securities.toArray()[0]
         );
 
         Map<String, Object> orderMap = Format.objectToMap(order);

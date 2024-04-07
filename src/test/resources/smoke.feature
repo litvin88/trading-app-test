@@ -24,7 +24,8 @@ Feature: Smoke
     And user "User1" puts a "buy" order for security "NTR" with a price of 1001 and quantity of 50
     Then a trade occurs with the price of 1000 and quantity of 50
 
-    #Value for Trade's quantity field is taken from Buy order on server
+  #Value for Trade's quantity field is taken from Buy order on server
+  #Trading should not be processed from one user
   Scenario: Trading with one user with Buy and Sell orders
     Given one security "DAX" and one user "User1" exist
     When user "User1" puts a "buy" order for security "DAX" with a price of 11111 and a quantity of 1000
@@ -54,3 +55,25 @@ Feature: Smoke
     When user "User1" puts a "buy" order for security "WSB" with a price of 999999.9999 and quantity of 100
     And user "User2" puts a "sell" order for security "WSB" with a price of 999999.9999 and quantity of 1000
     Then a trade occurs with the price of 999999.9999 and quantity of 100
+
+
+  Scenario: Trading with basic order
+    #TODO implement scenario
+
+  Scenario: Trading with stop loss order
+    #TODO implement scenario
+
+  Scenario: Trading with limit order
+    #TODO implement scenario
+
+  Scenario: Trading before trading time starts
+    #TODO implement scenario
+
+  Scenario: Trading after trading time ends
+    #TODO implement scenario
+
+  Scenario: Trading as different users {Liquidity Provider, Trader}
+    #TODO implement scenario
+
+  Scenario: Trading as different users {Liquidity Provider, Trader}
+    #TODO implement scenario
