@@ -27,6 +27,7 @@ Feature: Negative Checks
       | "type" | "123"   |
       | "type" | "loan"  |
 
+    #Server allows empty and space in id field
   Scenario Outline: Create wrong Order with a wrong id
     Then user "WhiteListed" puts an order for security "DAX" with a wrong <field> and <value> for it
     Examples:
@@ -38,6 +39,7 @@ Feature: Negative Checks
       | "id"  | "%user%"                               |
       | "id"  | "{user}"                               |
 
+    #Server allows empty and space in userId field
   Scenario Outline: Create wrong Order with a wrong userId
     Then user "WhiteListed" puts an order for security "DAX" with a wrong <field> and <value> for it
     Examples:
@@ -49,6 +51,7 @@ Feature: Negative Checks
       | "userId" | "%user%"                               |
       | "userId" | "{userId}"                             |
 
+     #Server allows empty and space in securityId field
   Scenario Outline: Create wrong Order with a wrong securityId
     Then user "WhiteListed" puts an order for security "DAX" with a wrong <field> and <value> for it
     Examples:

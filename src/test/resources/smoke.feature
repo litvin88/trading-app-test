@@ -24,11 +24,11 @@ Feature: Smoke
     And user "User1" puts a "buy" order for security "NTR" with a price of 1001 and quantity of 50
     Then a trade occurs with the price of 1000 and quantity of 50
 
+    #Value for Trade's quantity field is taken from Buy order on server
   Scenario: Trading with one user with Buy and Sell orders
-    Given one security "NTR" and one user "User1" exist
-    When user "User1" puts a "buy" order for security "NTR" with a price of 11111 and a quantity of 1000
-    And user "User1" puts a "sell" order for security "NTR" with a price of 11111 and quantity of 50
-#   Value for Trade's quantity field is taken from Buy order
+    Given one security "DAX" and one user "User1" exist
+    When user "User1" puts a "buy" order for security "DAX" with a price of 11111 and a quantity of 1000
+    And user "User1" puts a "sell" order for security "DAX" with a price of 11111 and quantity of 50
     Then a trade occurs with the price of 11111 and quantity of 50
 
   Scenario: Max quantity for trading Sell Buy
