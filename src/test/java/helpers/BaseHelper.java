@@ -11,8 +11,6 @@ import pojo.Security;
 import pojo.Trade;
 import pojo.User;
 
-import java.math.BigDecimal;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static utils.DataGenerator.initUserName;
 
@@ -61,12 +59,12 @@ public class BaseHelper {
     public void setUpOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         Order orderCreated = api.createOrder(user, orderType, security, price, quantity);
         if (OrderType.SELL == orderCreated.getType())
-            scenarioContext.sellOrder = orderCreated;
+            scenarioContext.sellOrders.add(orderCreated);
         else
-            scenarioContext.buyOrder = orderCreated;
+            scenarioContext.buyOrders.add(orderCreated);
     }
 
-    public void verifyTrade(Trade trade, BigDecimal price, Long quantity) {
+    public void verifyTrade(Trade trade, Double price, Long quantity) {
         assertThat(price).withFailMessage("Price not expected")
                 .isEqualTo(trade.price());
         assertThat(quantity).withFailMessage("Quantity not expected")

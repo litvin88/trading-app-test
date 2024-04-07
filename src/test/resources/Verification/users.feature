@@ -10,12 +10,14 @@ Feature: User verification
   Scenario: Create User with all fields
     Given create user with all fields and save response
     And response status code is 201
+    And save user from response
     Then user data and user from DB should be equals
 
   Scenario: Create two identical users
     Given create user with "random" name and save this user
     And make request for duplicate user and save response
     And response status code is 201
+    And save user from response
     Then validate that users list filtered by ID size equals to 1
 
     #Server allows special chars in username field
