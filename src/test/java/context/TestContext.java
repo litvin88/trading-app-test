@@ -1,5 +1,6 @@
 package context;
 
+import io.restassured.response.ValidatableResponse;
 import pojo.Order;
 import pojo.Security;
 import pojo.User;
@@ -13,6 +14,7 @@ public class TestContext {
     public Set<User> users;
     public Order buyOrder;
     public Order sellOrder;
+    public ValidatableResponse response;
 
     public TestContext(){
         securities = new HashSet<>();

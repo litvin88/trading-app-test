@@ -3,6 +3,7 @@ package cucumber;
 import api.Endpoints;
 import context.TestContext;
 import helpers.BaseHelper;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import pojo.Trade;
@@ -31,6 +32,12 @@ public class BaseSteps extends BaseHelper {
     public void noTradesOccur() {
         request.get(Endpoints.TRADE_BUY_SELL, testContext.buyOrder.getId().toString(), testContext.sellOrder.getId().toString())
                 .statusCode(404);
+    }
+
+    @And("response status code is {int}")
+    public void validateResponse(Integer statusCode) {
+        testContext.response
+                .statusCode(statusCode);
     }
 
 }

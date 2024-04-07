@@ -1,6 +1,7 @@
 package utils;
 
 import enums.OrderType;
+import org.apache.commons.lang3.RandomStringUtils;
 import pojo.Order;
 import pojo.Security;
 import pojo.User;
@@ -25,6 +26,10 @@ public class DataGenerator {
         return random.nextLong();
     }
 
+    public static String randomSting(int length) {
+        return RandomStringUtils.randomAlphabetic(length);
+    }
+
     public static Order generateOrder(User user, OrderType orderType, Security security, Double price, Long quantity) {
         return Order.Builder.newInstance()
                 .id(UUID.randomUUID())
@@ -34,5 +39,19 @@ public class DataGenerator {
                 .quantity(quantity)
                 .type(orderType)
                 .build();
+    }
+
+    public static User randomUser(String name){
+        return User.Builder.newInstance()
+                .id(UUID.randomUUID())
+                .username(initUserName(name))
+                .password(randomSting(10))
+                .build();
+    }
+
+    public static String initUserName(String userName) {
+        if (userName.equals("random"))
+            userName = "Test_" + randomSting(10);
+        return userName;
     }
 }

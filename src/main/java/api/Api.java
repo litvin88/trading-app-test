@@ -2,13 +2,14 @@ package api;
 
 import enums.Index;
 import enums.OrderType;
-import org.apache.commons.lang3.RandomStringUtils;
+import io.restassured.response.ValidatableResponse;
 import pojo.Order;
 import pojo.Security;
 import pojo.Trade;
 import pojo.User;
 import utils.DataGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Api {
@@ -19,22 +20,24 @@ public class Api {
         this.request = request;
     }
 
-    public User createUser(String name) {
-        User user = User.Builder.newInstance()
-                .id(UUID.randomUUID())
-                .username(name)
-                .password(RandomStringUtils.randomAlphanumeric(64))
-                .build();
+    public ValidatableResponse requestUser(Object user) {
+        return request.post(user, Endpoints.USERS);
+    }
 
-        return request.post(user, Endpoints.USERS)
+    public User createUser(Object user) {
+        return requestUser(user)
                 .statusCode(201)
                 .extract().as(User.class);
+    }
+
+    public ValidatableResponse requestSecurity(Security security) {
+        return request.post(security, Endpoints.SECURITIES);
     }
 
     public Security createSecurity(Index index) {
         Security security = new Security(UUID.randomUUID(), index.name());
 
-        return request.post(security, Endpoints.SECURITIES)
+        return requestSecurity(security)
                 .statusCode(201)
                 .extract().as(Security.class);
     }
@@ -50,6 +53,18 @@ public class Api {
         return request.get(Endpoints.TRADE_BUY_SELL, buyOrder.getId().toString(), sellOrder.getId().toString())
                 .statusCode(200)
                 .extract().as(Trade.class);
+    }
+
+    public User getUserById(User user) {
+        return request.get(Endpoints.USER, user.getId().toString())
+                .statusCode(200)
+                .extract().as(User.class);
+    }
+
+    public List<User> getUsersList() {
+        return request.get(Endpoints.USERS)
+                .statusCode(200)
+                .extract().jsonPath().getList(".", User.class);
     }
 
 }

@@ -32,6 +32,14 @@ public class User {
         return password;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public static class Builder {
         private UUID id;
         private String username;
